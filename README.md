@@ -14,7 +14,7 @@
 
 ### 1. High-Performance Optimized (Highly Recommended)
 
-ชุดข้อมูลที่ผ่านกระบวนการ "รีดไขมัน" (77% Reduction) เพื่อให้สามารถใช้งานบนเว็บแอปพลิเคชันได้จริงโดยไม่สูญเสียความแม่นยำทางพิกัด
+ชุดข้อมูลที่ผ่านกระบวนการ "Optimized" (77% Reduction) เพื่อให้สามารถใช้งานบนเว็บแอปพลิเคชันได้จริงโดยไม่สูญเสียความแม่นยำทางพิกัด
 
 * `data/geojson/web-optimized/thailand-subdistricts-optimized.json`: ระดับตำบล (339 MB - แนะนำสำหรับระดับตำบล)
 * `data/geojson/web-optimized/thailand-provinces-web.json`: ระดับจังหวัด
@@ -28,7 +28,7 @@
 
 * `data/geojson/final/provinces-final.json`: ระดับจังหวัด (77 จังหวัด)
 * `data/geojson/final/districts-final.json`: ระดับอำเภอ (928 อำเภอ)
-* `data/geojson/final/subdistricts-final.json`: ระดับตำบล (1.5 GB)
+* `data/geojson/final/subdistricts-final.json`: ระดับตำบล (2.3 GB)
 
 ![แผนที่ประเทศไทยระดับตำบลความละเอียดสูง](assets/map-subdistricts.png)
 
