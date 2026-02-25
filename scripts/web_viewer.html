@@ -77,12 +77,11 @@
         <h2>🇹🇭 Thailand GIS Viewer</h2>
         <label>เลือกชุดข้อมูล:</label>
         <select id="data-selector">
-            <option value="data/geojson/web-optimized/thailand-provinces-web.json">จังหวัด (Web Optimized - เร็วสุด)
+            <option value="data/geojson/web-optimized/thailand-provinces-web.json">จังหวัด (Web Optimized - แนะนำ)
             </option>
-            <option value="data/geojson/high-res/thailand-provinces-detailed.geojson">จังหวัด (High-Res)</option>
-            <option value="data/geojson/high-res/thailand-districts-detailed.geojson">อำเภอ (Detailed)</option>
-            <option value="data/geojson/high-res/thailand-subdistricts-detailed.geojson">ตำบล (7,367 รายการ -
-                โหลดหนักหน่อยนะ!)</option>
+            <option value="data/geojson/final/provinces-final.json">จังหวัด (Official Grade)</option>
+            <option value="data/geojson/final/districts-final.json">อำเภอ (Official Grade)</option>
+            <option value="data/geojson/final/subdistricts-final.json">ตำบล (Official - ไฟล์ใหญ่มาก 1.5GB!)</option>
         </select>
         <div id="status" style="font-size: 12px; color: #00d2ff; margin-top: 10px;">สถานะ: พร้อมใช้งาน</div>
         <p style="font-size: 11px; color: #777; margin-top: 15px;">* แนะนำใช้คู่กับ <code>python -m http.server</code>

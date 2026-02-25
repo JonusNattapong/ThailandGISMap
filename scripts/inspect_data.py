@@ -40,7 +40,7 @@ def inspect_geojson(file_path):
         print(f"Error: {str(e)}")
 
 if __name__ == "__main__":
-    default_file = "data/geojson/high-res/thailand-provinces-detailed.geojson"
+    default_file = "data/geojson/web-optimized/thailand-provinces-web.json"
     target = sys.argv[1] if len(sys.argv) > 1 else default_file
     
     script_dir = os.path.dirname(os.path.abspath(__file__))
