@@ -4,7 +4,7 @@
 
 ---
 
-## โครงสร้างข้อมูล (Data Categories)
+## Data Categories
 
 ชุดข้อมูลถูกจำแนกออกเป็น 3 รูปแบบหลัก เพื่อให้ครอบคลุมทุกวัตถุประสงค์การใช้งานในระดับมาตรฐานอุตสาหกรรม:
 
@@ -31,9 +31,18 @@
 
 * `data/shapefile/` (ประกอบด้วยไฟล์นามสกุล .shp, .dbf, .shx, .prj)
 
+### ตารางแนะนำการใช้งาน (Use Case Selection)
+
+| ลักษณะงาน | ชุดข้อมูลที่แนะนำ | เหตุผลประกอบ |
+| :--- | :--- | :--- |
+| พัฒนา Web Application / Dashboard | Web Optimized | ขนาดไฟล์เล็ก โหลดข้อมูลได้รวดเร็ว |
+| การวิเคราะห์ข้อมูลเชิงสถิติหรืองานวิจัย | Official Grade | ความแม่นยำทางพิกัดสูงและอ้างอิงมาตรฐานสากล |
+| งานออกแบบแผนที่ (Cartography / QGIS) | Professional Shapefiles | รองรับซอฟต์แวร์มาตรฐานวิศวกรรมแผนที่ |
+| ระบบค้นหาที่อยู่และรหัสทางภูมิศาสตร์ | Official Grade | มีข้อมูล P-Code และพิกัดจุดศูนย์กลางที่ครบถ้วน |
+
 ---
 
-## ระบบประมวลผลข้อมูลอัตโนมัติ (Automated Data Pipeline)
+## Automated Data Pipeline
 
 โครงการนี้ประกอบด้วยระบบการจัดการข้อมูลอัตโนมัติผ่าน Python Scripts เพื่อรักษาความทันสมัยของข้อมูล:
 
@@ -55,7 +64,7 @@ python scripts/finalize_dataset.py
 
 ---
 
-## เครื่องมือวิเคราะห์และแสดงผล (Utilities)
+## Utilities
 
 ### ระบบตรวจสอบคุณสมบัติข้อมูล (inspect_data.py)
 
@@ -74,7 +83,7 @@ python scripts/inspect_data.py [path_to_file]
 
 ---
 
-## ตารางอ้างอิงคุณลักษณะข้อมูล (Property Cheat Sheet)
+## Property Cheat Sheet
 
 | คุณลักษณะ (Key) | รายละเอียด | ตัวอย่างข้อมูล |
 | :--- | :--- | :--- |
@@ -87,18 +96,18 @@ python scripts/inspect_data.py [path_to_file]
 
 ---
 
-## กิตติกรรมประกาศ (Credits)
+## Credits
 
 ขอขอบพระคุณหน่วยงานและผู้จัดทำชุดข้อมูลต้นทางเพื่อสาธารณประโยชน์:
 
-1. **UN OCHA / HDX**: สำหรับข้อมูล Official COD-AB
-2. **chingchai/OpenGISData-Thailand**: ข้อมูลระดับเขตการปกครองละเอียดสูง
-3. **apisit/thailand.json**: ข้อมูล GeoJSON เวอร์ชันจัดเตรียมสำหรับเว็บ
-4. **cvibhagool/thailand-map**: ข้อมูล Shapefile มาตรฐานสากล
+1. [UN OCHA / HDX](https://data.humdata.org/dataset/cod-ab-tha): สำหรับข้อมูล Official COD-AB
+2. [chingchai/OpenGISData-Thailand](https://github.com/chingchai/OpenGISData-Thailand): ข้อมูลระดับเขตการปกครองละเอียดสูง
+3. [apisit/thailand.json](https://github.com/apisit/thailand.json): ข้อมูล GeoJSON เวอร์ชันจัดเตรียมสำหรับเว็บ
+4. [cvibhagool/thailand-map](https://github.com/cvibhagool/thailand-map): ข้อมูล Shapefile มาตรฐานสากล
 
 ---
 
-## ผู้จัดทำ (Project Maintainer)
+## Project Maintainer
 
 **Nattapong Tapachoom**
 อีเมล: <jonusnattapong@gmail.com>
