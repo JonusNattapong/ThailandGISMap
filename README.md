@@ -1,4 +1,4 @@
-# Thailand Universal GIS Data Stack (v1.2.0)
+# Thailand Universal GIS Data Stack (v1.3.0)
 
 โครงการรวบรวมและจัดหมวดหมู่ข้อมูลภูมิสารสนเทศ (GIS) ของประเทศไทยจากแหล่งข้อมูลมาตรฐานสากลและหน่วยงานภาครัฐ เพื่อสนับสนุนการพัฒนาระบบเทคโนโลยีสารสนเทศที่ต้องการความแม่นยำสูงในระดับจังหวัด, อำเภอ และตำบล
 
@@ -106,6 +106,28 @@ python scripts/inspect_data.py [path_to_file]
 ```powershell
 python scripts/export_to_image.py
 ```
+
+---
+
+## การเชื่อมต่อกับฐานข้อมูล SQL Server (SQL Server Integration)
+
+โครงการนี้รองรับการเชื่อมข้อมูลร่วมกับ [ThailandLocation77DatabaseSQLServer](https://github.com/JonusNattapong/ThailandLocation77DatabaseSQLServer) เพื่อให้พี่สามารถใช้งานข้อมูลร่วมกับระบบฐานข้อมูลเดิมได้ทันที:
+
+### 1. การดึงรหัสไปรษณีย์เข้าสู่แผนที่ (Zipcode Enrichment)
+
+เราได้ทำการเชื่อมโยงข้อมูล `POSTCODE` จากตาราง `amphur` ใน SQL Server เข้าสู่ GeoJSON ทำให้ทุกระดับ (อำเภอ/ตำบล) มีข้อมูลรหัสไปรษณีย์พร้อมใช้งาน:
+
+* สคริปต์ที่ใช้: `scripts/merge_zipcodes.py`
+
+### 2. การส่งออกข้อมูลพิกัดไปยัง SQL Server (GIS Bridge)
+
+โครงการเตรียมสคริปต์สำหรับสร้างไฟล์ SQL Update เพื่อเพิ่มคอลัมน์ `LATITUDE`, `LONGITUDE`, และ `AREA_SQKM` ให้กับฐานข้อมูล SQL ของพี่โดยอัตโนมัติ:
+
+```powershell
+python scripts/generate_sql_bridge.py
+```
+
+* ผลลัพธ์: `data/thailand_gis_update.sql` (นำไปรันใน SSMS ได้เลย)
 
 ---
 

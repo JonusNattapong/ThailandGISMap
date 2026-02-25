@@ -33,6 +33,8 @@ desktop.ini
 # Large Data Files (Exceeding GitHub 100MB limit)
 data/geojson/final/
 data/latest/
+data/geojson/web-optimized/thailand-subdistricts-optimized.json
+data/*.sql
 
 # Local server logs
 *.log
