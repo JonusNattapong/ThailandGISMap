@@ -1,30 +1,32 @@
-# Thailand Universal GIS Data Stack (v1.0.0)
+# Thailand Universal GIS Data Stack (v1.2.0)
 
 โครงการรวบรวมและจัดหมวดหมู่ข้อมูลภูมิสารสนเทศ (GIS) ของประเทศไทยจากแหล่งข้อมูลมาตรฐานสากลและหน่วยงานภาครัฐ เพื่อสนับสนุนการพัฒนาระบบเทคโนโลยีสารสนเทศที่ต้องการความแม่นยำสูงในระดับจังหวัด, อำเภอ และตำบล
 
 ---
 
-## Data Categories
+## โครงสร้างข้อมูล (Data Categories)
 
 ชุดข้อมูลถูกจำแนกออกเป็น 3 รูปแบบหลัก เพื่อให้ครอบคลุมทุกวัตถุประสงค์การใช้งานในระดับมาตรฐานอุตสาหกรรม:
 
-### 1. Official Grade (Latest & Most Accurate)
+### 1. High-Performance Optimized (Highly Recommended)
+
+ชุดข้อมูลที่ผ่านกระบวนการ "รีดไขมัน" (77% Reduction) เพื่อให้สามารถใช้งานบนเว็บแอปพลิเคชันได้จริงโดยไม่สูญเสียความแม่นยำทางพิกัด
+
+* `data/geojson/web-optimized/thailand-subdistricts-optimized.json`: ระดับตำบล (339 MB - แนะนำสำหรับระดับตำบล)
+* `data/geojson/web-optimized/thailand-provinces-web.json`: ระดับจังหวัด
+
+![แผนที่ประเทศไทยระดับจังหวัด](assets/map-provinces.png)
+
+### 2. Official Grade (Standard & Precise)
 
 **แหล่งข้อมูลอ้างอิง:** UN OCHA (Humanitarian Data Exchange - HDX)
-ข้อมูลขอบเขตการปกครองที่มีความแม่นยำสูงสุด อ้างอิงมาตรฐานรหัส P-Code สากล พร้อมข้อมูลพิกัดจุดศูนย์กลาง (Centroids) และพื้นที่โดยละเอียด
+ข้อมูลขอบเขตการปกครองที่มีความแม่นยำสูงสุด อ้างอิงมาตรฐานรหัส P-Code สากล พร้อมข้อมูลพิกัดจุดศูนย์กลาง (Centroids)
 
 * `data/geojson/final/provinces-final.json`: ระดับจังหวัด (77 จังหวัด)
 * `data/geojson/final/districts-final.json`: ระดับอำเภอ (928 อำเภอ)
-* `data/geojson/final/subdistricts-final.json`: ระดับตำบล (กว่า 7,000 ตำบล)
+* `data/geojson/final/subdistricts-final.json`: ระดับตำบล (1.5 GB)
 
-![ความละเอียดระดับตำบล](assets/viewer-subdistricts.png)
-
-### 2. Web Optimized (High Performance)
-
-**แหล่งข้อมูลอ้างอิง:** apisit/thailand.json
-ข้อมูลรูปแบบ GeoJSON ที่ผ่านกระบวนการลดทอนรายละเอียดเชิงพื้นที่ (Simplification) เพื่อเพิ่มประสิทธิภาพในการโหลดข้อมูลสำหรับ Web Application และ Dashboard
-
-* `data/geojson/web-optimized/thailand-provinces-web.json`
+![แผนที่ประเทศไทยระดับตำบลความละเอียดสูง](assets/map-subdistricts.png)
 
 ### 3. Professional Shapefiles (Standard GIS)
 
@@ -64,6 +66,14 @@ python scripts/update_gis_pipeline.py
 python scripts/finalize_dataset.py
 ```
 
+### 3. Optimize (optimize_geojson.py)
+
+ระบบประมวลผลขั้นสูงเพื่อลดขนาดไฟล์ GeoJSON (สูงสุด 77%) โดยการปรับทศนิยมพิกัดและการทำ Minification เพื่อให้ใช้งานบนเว็บได้จริง
+
+```powershell
+python scripts/optimize_geojson.py
+```
+
 ---
 
 ## Utilities
@@ -86,6 +96,16 @@ python scripts/inspect_data.py [path_to_file]
 
 1. ติดตั้ง Local Server: `python -m http.server 8000`
 2. เข้าชมผ่าน URL: `http://localhost:8000/scripts/web_viewer.html`
+
+### ระบบส่งออกแผนที่เป็นรูปภาพ (export_to_image.py)
+
+เครื่องมือสำหรับส่งออกข้อมูล GeoJSON ให้เป็นไฟล์รูปภาพ PNG คุณภาพสูง (300 DPI) เพื่อใช้ในการนำเสนอหรือทำรายงาน
+
+![ตัวอย่างแผนที่ระดับอำเภอ](assets/map-districts.png)
+
+```powershell
+python scripts/export_to_image.py
+```
 
 ---
 
