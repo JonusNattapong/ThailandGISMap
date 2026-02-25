@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thailand GIS - Universal Viewer</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #1a1a1a;
+            color: #fff;
+        }
+
+        #map {
+            height: 100vh;
+            width: 100%;
+        }
+
+        .controls {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+            border: 1px solid #444;
+            width: 250px;
+        }
+
+        h2 {
+            margin: 0 0 10px 0;
+            font-size: 18px;
+            color: #00d2ff;
+        }
+
+        select,
+        button {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            cursor: pointer;
+            background: #333;
+            color: white;
+            border: 1px solid #555;
+            border-radius: 4px;
+        }
+
+        select:hover,
+        button:hover {
+            background: #444;
+        }
+
+        .info-box {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 10px;
+            border-radius: 4px;
+            display: none;
+            border-left: 4px solid #00d2ff;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="controls">
+        <h2>🇹🇭 Thailand GIS Viewer</h2>
+        <label>เลือกชุดข้อมูล:</label>
+        <select id="data-selector">
+            <option value="data/geojson/web-optimized/thailand-provinces-web.json">จังหวัด (Web Optimized - เร็วสุด)
+            </option>
+            <option value="data/geojson/high-res/thailand-provinces-detailed.geojson">จังหวัด (High-Res)</option>
+            <option value="data/geojson/high-res/thailand-districts-detailed.geojson">อำเภอ (Detailed)</option>
+            <option value="data/geojson/high-res/thailand-subdistricts-detailed.geojson">ตำบล (7,367 รายการ -
+                โหลดหนักหน่อยนะ!)</option>
+        </select>
+        <div id="status" style="font-size: 12px; color: #00d2ff; margin-top: 10px;">สถานะ: พร้อมใช้งาน</div>
+        <p style="font-size: 11px; color: #777; margin-top: 15px;">* แนะนำใช้คู่กับ <code>python -m http.server</code>
+        </p>
+    </div>
+
+    <div id="info" class="info-box"></div>
+    <div id="map"></div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        const map = L.map('map').setView([13.7367, 100.5231], 6);
+        const statusEl = document.getElementById('status');
+
+        // แผนที่ฐาน (Dark Mode)
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+            attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);
+
+        let geoJsonLayer;
+        const info = document.getElementById('info');
+
+        async function loadData(url) {
+            statusEl.innerText = 'สถานะ: กำลังโหลดข้อมูล...';
+            statusEl.style.color = '#ff9f00';
+
+            if (geoJsonLayer) map.removeLayer(geoJsonLayer);
+
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+
+                geoJsonLayer = L.geoJSON(data, {
+                    style: {
+                        color: '#00d2ff',
+                        weight: 0.5,
+                        fillColor: '#00d2ff',
+                        fillOpacity: 0.1
+                    },
+                    onEachFeature: (feature, layer) => {
+                        layer.on('mouseover', (e) => {
+                            const props = feature.properties;
+                            info.style.display = 'block';
+
+                            // ระบบตรวจจับชื่อแบบอัจฉริยะ (Fallback Chain)
+                            let nameTh = props.tam_th || props.amp_th || props.pro_th || "";
+                            let nameEn = props.tam_en || props.amp_en || props.pro_en || props.name || props.CHA_NE || "Unknown";
+
+                            let displayTxt = `<strong>${nameEn}</strong>`;
+                            if (nameTh) displayTxt += `<br>${nameTh}`;
+
+                            info.innerHTML = displayTxt;
+                            layer.setStyle({ fillOpacity: 0.6, weight: 2, color: '#fff' });
+                        });
+                        layer.on('mouseout', () => {
+                            info.style.display = 'none';
+                            layer.setStyle({ fillOpacity: 0.1, weight: 0.5, color: '#00d2ff' });
+                        });
+                    }
+                }).addTo(map);
+
+                map.fitBounds(geoJsonLayer.getBounds());
+                statusEl.innerText = 'สถานะ: โหลดเสร็จแล้ว (' + data.features.length + ' รายการ)';
+                statusEl.style.color = '#00ff00';
+            } catch (err) {
+                statusEl.innerText = 'สถานะ: โหลดผิดพลาด!';
+                statusEl.style.color = '#ff0000';
+                alert('ไม่สามารถโหลดไฟล์ได้: ' + err.message);
+            }
+        }
+
+        document.getElementById('data-selector').onchange = (e) => loadData('../' + e.target.value);
+
+        // โหลดครั้งแรก
+        loadData('../data/geojson/web-optimized/thailand-provinces-web.json');
+    </script>
+</body>
+
+</html>
