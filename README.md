@@ -17,6 +17,8 @@
 * `data/geojson/final/districts-final.json`: ระดับอำเภอ (928 อำเภอ)
 * `data/geojson/final/subdistricts-final.json`: ระดับตำบล (กว่า 7,000 ตำบล)
 
+![ความละเอียดระดับตำบล](assets/viewer-subdistricts.png)
+
 ### 2. Web Optimized (High Performance)
 
 **แหล่งข้อมูลอ้างอิง:** apisit/thailand.json
@@ -70,6 +72,8 @@ python scripts/finalize_dataset.py
 
 ใช้สำหรับตรวจสอบโครงสร้าง Meta-data และคุณสมบัติ (Properties) เบื้องต้นของไฟล์ GeoJSON
 
+![ตรวจสอบข้อมูลระดับจังหวัด](assets/terminal-provinces.png)
+
 ```powershell
 python scripts/inspect_data.py [path_to_file]
 ```
@@ -77,6 +81,8 @@ python scripts/inspect_data.py [path_to_file]
 ### ระบบจำลองแผนที่เชิงโต้ตอบ (web_viewer.html)
 
 ระบบพรีวิวข้อมูลสารสนเทศภูมิศาสตร์ผ่านเบราว์เซอร์โดยใช้ Leaflet.js
+
+![พรีวิวแผนที่ระดับอำเภอ](assets/viewer-districts.png)
 
 1. ติดตั้ง Local Server: `python -m http.server 8000`
 2. เข้าชมผ่าน URL: `http://localhost:8000/scripts/web_viewer.html`
