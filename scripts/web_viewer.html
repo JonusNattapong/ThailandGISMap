@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Thailand GIS - Universal Viewer</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         body {
             margin: 0;
@@ -81,8 +82,33 @@
             </option>
             <option value="data/geojson/final/provinces-final.json">จังหวัด (Official Grade)</option>
             <option value="data/geojson/final/districts-final.json">อำเภอ (Official Grade)</option>
+            <option value="data/geojson/web-optimized/thailand-subdistricts-optimized.json">ตำบล (Web Optimized)
+            </option>
             <option value="data/geojson/final/subdistricts-final.json">ตำบล (Official - ไฟล์ใหญ่มาก 1.5GB!)</option>
         </select>
+
+        <div id="region-filter-container" style="margin-top: 10px;">
+            <label>กรองตามภูมิภาค:</label>
+            <select id="region-selector">
+                <option value="">ทุกภูมิภาค</option>
+                <option value="ภาคเหนือ">ภาคเหนือ</option>
+                <option value="ภาคกลาง">ภาคกลาง</option>
+                <option value="ภาคอีสาน">ภาคอีสาน</option>
+                <option value="ภาคใต้">ภาคใต้</option>
+            </select>
+        </div>
+
+        <div id="province-filter-container" style="display: none; margin-top: 10px;">
+            <label>กรองตามจังหวัด:</label>
+            <select id="province-selector">
+                <option value="">ทุกจังหวัด</option>
+            </select>
+        </div>
+
+        <button id="export-btn" style="margin-top: 10px; background: #00d2ff; color: #000; font-weight: bold;">
+            📸 Export เป็นภาพ (ตามที่เห็น)
+        </button>
+
         <div id="status" style="font-size: 12px; color: #00d2ff; margin-top: 10px;">สถานะ: พร้อมใช้งาน</div>
         <p style="font-size: 11px; color: #777; margin-top: 15px;">* แนะนำใช้คู่กับ <code>python -m http.server</code>
         </p>
@@ -102,7 +128,18 @@
         }).addTo(map);
 
         let geoJsonLayer;
+        const THAILAND_REGIONS = {
+            "ภาคเหนือ": ["แม่ฮ่องสอน", "เชียงใหม่", "เชียงราย", "พะเยา", "น่าน", "ลำพูน", "ลำปาง", "แพร่", "อุตรดิตถ์"],
+            "ภาคกลาง": ["กรุงเทพมหานคร", "สมุทรปราการ", "นนทบุรี", "ปทุมธานี", "พระนครศรีอยุธยา", "อ่างทอง", "ลพบุรี", "สิงห์บุรี", "ชัยนาท", "สระบุรี", "ชลบุรี", "ระยอง", "จันทบุรี", "ตราด", "ฉะเชิงเทรา", "นครนายก", "ปราจีนบุรี", "สระแก้ว", "ราชบุรี", "กาญจนบุรี", "สุพรรณบุรี", "นครปฐม", "สมุทรสาคร", "สมุทรสงคราม", "เพชรบุรี", "ประจวบคีรีขันธ์", "นครสวรรค์", "อุทัยธานี", "กำแพงเพชร", "ตาก", "สุโขทัย", "พิษณุโลก", "พิจิตร", "เพชรบูรณ์"],
+            "ภาคอีสาน": ["นครราชสีมา", "บุรีรัมย์", "สุรินทร์", "ศรีสะเกษ", "อุบลราชธานี", "ยโสธร", "ชัยภูมิ", "อำนาจเจริญ", "หนองบัวลำภู", "ขอนแก่น", "อุดรธานี", "เลย", "หนองคาย", "มหาสารคาม", "ร้อยเอ็ด", "กาฬสินธุ์", "สกลนคร", "นครพนม", "มุกดาหาร", "บึงกาฬ"],
+            "ภาคใต้": ["นครศรีธรรมราช", "กระบี่", "พังงา", "ภูเก็ต", "สุราษฎร์ธานี", "ระนอง", "ชุมพร", "สงขลา", "สตูล", "ตรัง", "พัทลุง", "ปัตตานี", "ยะลา", "นราธิวาส"]
+        };
+
+        let currentData = null;
         const info = document.getElementById('info');
+        const provinceFilterContainer = document.getElementById('province-filter-container');
+        const provinceSelector = document.getElementById('province-selector');
+        const regionSelector = document.getElementById('region-selector');
 
         async function loadData(url) {
             statusEl.innerText = 'สถานะ: กำลังโหลดข้อมูล...';
@@ -113,47 +150,183 @@
             try {
                 const response = await fetch(url);
                 const data = await response.json();
+                currentData = data;
 
-                geoJsonLayer = L.geoJSON(data, {
-                    style: {
-                        color: '#00d2ff',
-                        weight: 0.5,
-                        fillColor: '#00d2ff',
-                        fillOpacity: 0.1
-                    },
-                    onEachFeature: (feature, layer) => {
-                        layer.on('mouseover', (e) => {
-                            const props = feature.properties;
-                            info.style.display = 'block';
+                const isSubdistrictData = url.includes('subdistrict');
+                const isDistrictData = url.includes('district');
 
-                            // ระบบตรวจจับชื่อแบบอัจฉริยะ (Fallback Chain)
-                            let nameTh = props.tam_th || props.amp_th || props.pro_th || "";
-                            let nameEn = props.tam_en || props.amp_en || props.pro_en || props.name || props.CHA_NE || "Unknown";
+                if (isSubdistrictData || isDistrictData) {
+                    provinceFilterContainer.style.display = 'block';
+                    populateProvinceSelector(data);
+                } else {
+                    provinceFilterContainer.style.display = 'none';
+                }
 
-                            let displayTxt = `<strong>${nameEn}</strong>`;
-                            if (nameTh) displayTxt += `<br>${nameTh}`;
+                // Reset selectors
+                regionSelector.value = "";
+                provinceSelector.value = "";
 
-                            info.innerHTML = displayTxt;
-                            layer.setStyle({ fillOpacity: 0.6, weight: 2, color: '#fff' });
-                        });
-                        layer.on('mouseout', () => {
-                            info.style.display = 'none';
-                            layer.setStyle({ fillOpacity: 0.1, weight: 0.5, color: '#00d2ff' });
-                        });
-                    }
-                }).addTo(map);
-
-                map.fitBounds(geoJsonLayer.getBounds());
-                statusEl.innerText = 'สถานะ: โหลดเสร็จแล้ว (' + data.features.length + ' รายการ)';
-                statusEl.style.color = '#00ff00';
+                renderData(data);
             } catch (err) {
                 statusEl.innerText = 'สถานะ: โหลดผิดพลาด!';
                 statusEl.style.color = '#ff0000';
-                alert('ไม่สามารถโหลดไฟล์ได้: ' + err.message);
+                console.error(err);
+            }
+        }
+
+        function renderData(data) {
+            if (geoJsonLayer) map.removeLayer(geoJsonLayer);
+
+            geoJsonLayer = L.geoJSON(data, {
+                style: {
+                    color: '#00d2ff',
+                    weight: 0.5,
+                    fillColor: '#00d2ff',
+                    fillOpacity: 0.2
+                },
+                onEachFeature: (feature, layer) => {
+                    layer.on('mouseover', (e) => {
+                        const props = feature.properties;
+                        info.style.display = 'block';
+
+                        let nameTh = props.pro_th || props.p_th || props.amp_th || props.t_th || props.tam_th || "";
+                        let nameEn = props.pro_en || props.name_en || props.p_en || props.amp_en || props.t_en || props.name || "Unknown";
+
+                        let displayTxt = `<strong>${nameEn}</strong>`;
+                        if (nameTh) displayTxt += `<br>${nameTh}`;
+                        if (props.t_th && props.a_th) displayTxt += `<br><small>อำเภอ: ${props.a_th}</small>`;
+                        if ((props.t_th || props.a_th) && props.p_th) displayTxt += `<br><small>จังหวัด: ${props.p_th}</small>`;
+                        if (props.zip) displayTxt += `<br>📮 ${props.zip}`;
+
+                        info.innerHTML = displayTxt;
+                        layer.setStyle({ fillOpacity: 0.7, weight: 2, color: '#fff' });
+                    });
+                    layer.on('mouseout', () => {
+                        info.style.display = 'none';
+                        layer.setStyle({ fillOpacity: 0.2, weight: 0.5, color: '#00d2ff' });
+                    });
+                }
+            }).addTo(map);
+
+            if (data.features.length > 0) {
+                map.fitBounds(geoJsonLayer.getBounds());
+            }
+            statusEl.innerText = 'สถานะ: แสดงผล ' + data.features.length + ' รายการ';
+            statusEl.style.color = '#00ff00';
+        }
+
+        function populateProvinceSelector(data) {
+            const provinces = new Set();
+            data.features.forEach(feature => {
+                const p = feature.properties.p_th || feature.properties.pro_th || feature.properties.name_th;
+                if (p) provinces.add(p);
+            });
+
+            provinceSelector.innerHTML = '<option value="">ทุกจังหวัด</option>';
+            Array.from(provinces).sort().forEach(province => {
+                const option = document.createElement('option');
+                option.value = province;
+                option.textContent = province;
+                provinceSelector.appendChild(option);
+            });
+        }
+
+        function filterData() {
+            if (!currentData) return;
+
+            const selectedRegion = regionSelector.value;
+            const selectedProvince = provinceSelector.value;
+
+            let filteredFeatures = currentData.features;
+
+            if (selectedRegion) {
+                const provInRegion = THAILAND_REGIONS[selectedRegion];
+                filteredFeatures = filteredFeatures.filter(f => {
+                    const p = f.properties.p_th || f.properties.pro_th || f.properties.name_th || f.properties.name;
+                    return provInRegion.includes(p);
+                });
+            }
+
+            if (selectedProvince) {
+                filteredFeatures = filteredFeatures.filter(f => {
+                    const p = f.properties.p_th || f.properties.pro_th || f.properties.name_th || f.properties.name;
+                    return p === selectedProvince;
+                });
+            }
+
+            renderData({ ...currentData, features: filteredFeatures });
+        }
+
+        // Export to Image Function
+        async function exportToImage() {
+            const exportBtn = document.getElementById('export-btn');
+            const originalText = exportBtn.innerText;
+
+            try {
+                exportBtn.innerText = '🔄 กำลังสร้างภาพ...';
+                exportBtn.disabled = true;
+
+                // ซ่อน controls ชั่วคราว
+                const controls = document.querySelector('.controls');
+                const infoBox = document.querySelector('.info-box');
+                controls.style.display = 'none';
+                infoBox.style.display = 'none';
+
+                // รอให้หน้าจออัปเดต
+                await new Promise(resolve => setTimeout(resolve, 100));
+
+                // จับภาพแผนที่
+                const canvas = await html2canvas(document.getElementById('map'), {
+                    backgroundColor: '#1a1a1a',
+                    scale: 2, // ความละเอียดสูงขึ้น 2 เท่า
+                    useCORS: true,
+                    logging: false
+                });
+
+                // แสดง controls คืน
+                controls.style.display = 'block';
+
+                // สร้าง link สำหรับดาวน์โหลด
+                const link = document.createElement('a');
+                const timestamp = new Date().toISOString().slice(0, 19).replace(/:/g, '-');
+                const dataSelector = document.getElementById('data-selector');
+                const provinceSelector = document.getElementById('province-selector');
+                const selectedData = dataSelector.options[dataSelector.selectedIndex].text;
+                const selectedProvince = provinceSelector.value ? `_${provinceSelector.value}` : '';
+
+                link.download = `Thailand_GIS_${selectedData}${selectedProvince}_${timestamp}.png`;
+                link.href = canvas.toDataURL('image/png', 1.0);
+                link.click();
+
+                statusEl.innerText = 'สถานะ: Export ภาพสำเร็จ!';
+                statusEl.style.color = '#00ff00';
+
+                setTimeout(() => {
+                    statusEl.innerText = 'สถานะ: พร้อมใช้งาน';
+                    statusEl.style.color = '#00d2ff';
+                }, 3000);
+
+            } catch (error) {
+                console.error('Export error:', error);
+                statusEl.innerText = 'สถานะ: Export ผิดพลาด!';
+                statusEl.style.color = '#ff0000';
+
+                // แสดง controls คืนถ้ามีข้อผิดพลาด
+                const controls = document.querySelector('.controls');
+                const infoBox = document.querySelector('.info-box');
+                controls.style.display = 'block';
+                infoBox.style.display = 'none';
+
+            } finally {
+                exportBtn.innerText = originalText;
+                exportBtn.disabled = false;
             }
         }
 
         document.getElementById('data-selector').onchange = (e) => loadData('../' + e.target.value);
+        regionSelector.onchange = filterData;
+        provinceSelector.onchange = filterData;
+        document.getElementById('export-btn').onclick = exportToImage;
 
         // โหลดครั้งแรก
         loadData('../data/geojson/web-optimized/thailand-provinces-web.json');

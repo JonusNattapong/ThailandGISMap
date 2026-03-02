@@ -1,10 +1,28 @@
-# Thailand Universal GIS Data Stack (v1.3.0)
+# Thailand Universal GIS Data Stack (v1.4.0)
 
 โครงการรวบรวมและจัดหมวดหมู่ข้อมูลภูมิสารสนเทศ (GIS) ของประเทศไทยจากแหล่งข้อมูลมาตรฐานสากลและหน่วยงานภาครัฐ เพื่อสนับสนุนการพัฒนาระบบเทคโนโลยีสารสนเทศที่ต้องการความแม่นยำสูงในระดับจังหวัด, อำเภอ และตำบล
 
 > **หมายเหตุ:** ไฟล์ข้อมูลขนาดใหญ่ (เช่น `subdistricts-final.json` 2.3GB) ไม่สามารถเก็บใน GitHub Repository ได้ สามารถดาวน์โหลดได้จาก:
 >
 > 📁 **[Google Drive - Thailand GIS Data](https://drive.google.com/drive/folders/19qzSeh0KupOzX0P-T29NqYLZh--SNgbC)**
+
+---
+
+## 🆕 Version 1.4.0 - Latest Updates
+
+### New Features
+
+- **🗺️ Regional Support**: รองรับการกรองและแสดงผลแยกตามภูมิภาค (เหนือ/กลาง/อีสาน/ใต้)
+- **🗂️ Advanced Filtering**: กรองข้อมูลระดับจังหวัดและภูมิภาคได้ใน Web Viewer และสคริปต์ Export
+- **📸 High-Res Regional Export**: ส่งออกแผนที่แยกตามภูมิภาคความละเอียดสูงอัตโนมัติ
+- **🎯 Smart Info Box**: แสดงข้อมูลละเอียด (ชื่อไทย-Eng, อำเภอ, จังหวัด, รหัสไปรษณีย์) ในตัวพรีวิว
+- **📱 Responsive Design**: รองรับการแสดงผลบนอุปกรณ์ต่างๆ
+
+### Improvements
+
+- เพิ่มตัวเลือกข้อมูลตำบล Web Optimized ใน Web Viewer
+- ตั้งชื่อไฟล์อัตโนมัติตามข้อมูลและจังหวัดที่เลือก
+- ปรับปรุงประสิทธิภาพการโหลดข้อมูล
 
 ---
 
@@ -16,8 +34,8 @@
 
 ชุดข้อมูลที่ผ่านกระบวนการ "Optimized" (77% Reduction) เพื่อให้สามารถใช้งานบนเว็บแอปพลิเคชันได้จริงโดยไม่สูญเสียความแม่นยำทางพิกัด
 
-* `data/geojson/web-optimized/thailand-subdistricts-optimized.json`: ระดับตำบล (339 MB - แนะนำสำหรับระดับตำบล)
-* `data/geojson/web-optimized/thailand-provinces-web.json`: ระดับจังหวัด
+- `data/geojson/web-optimized/thailand-subdistricts-optimized.json`: ระดับตำบล (339 MB - แนะนำสำหรับระดับตำบล)
+- `data/geojson/web-optimized/thailand-provinces-web.json`: ระดับจังหวัด
 
 ![แผนที่ประเทศไทยระดับจังหวัด](assets/map-provinces.png)
 
@@ -26,9 +44,9 @@
 **แหล่งข้อมูลอ้างอิง:** UN OCHA (Humanitarian Data Exchange - HDX)
 ข้อมูลขอบเขตการปกครองที่มีความแม่นยำสูงสุด อ้างอิงมาตรฐานรหัส P-Code สากล พร้อมข้อมูลพิกัดจุดศูนย์กลาง (Centroids)
 
-* `data/geojson/final/provinces-final.json`: ระดับจังหวัด (77 จังหวัด)
-* `data/geojson/final/districts-final.json`: ระดับอำเภอ (928 อำเภอ)
-* `data/geojson/final/subdistricts-final.json`: ระดับตำบล (2.3 GB)
+- `data/geojson/final/provinces-final.json`: ระดับจังหวัด (77 จังหวัด)
+- `data/geojson/final/districts-final.json`: ระดับอำเภอ (928 อำเภอ)
+- `data/geojson/final/subdistricts-final.json`: ระดับตำบล (2.3 GB)
 
 ![แผนที่ประเทศไทยระดับตำบลความละเอียดสูง](assets/map-subdistricts.png)
 
@@ -37,7 +55,7 @@
 **แหล่งข้อมูลอ้างอิง:** cvibhagool/thailand-map
 ชุดข้อมูลมาตรฐานในรูปแบบ Shapefile สำหรับการใช้งานระดับมืออาชีพร่วมกับซอฟต์แวร์วิศวกรรมแผนที่ (อาทิ QGIS, ArcGIS)
 
-* `data/shapefile/` (ประกอบด้วยไฟล์นามสกุล .shp, .dbf, .shx, .prj)
+- `data/shapefile/` (ประกอบด้วยไฟล์นามสกุล .shp, .dbf, .shx, .prj)
 
 ### ตารางแนะนำการใช้งาน (Use Case Selection)
 
@@ -94,12 +112,25 @@ python scripts/inspect_data.py [path_to_file]
 
 ### ระบบจำลองแผนที่เชิงโต้ตอบ (web_viewer.html)
 
-ระบบพรีวิวข้อมูลสารสนเทศภูมิศาสตร์ผ่านเบราว์เซอร์โดยใช้ Leaflet.js
+ระบบพรีวิวข้อมูลสารสนเทศภูมิศาสตร์ผ่านเบราว์เซอร์โดยใช้ Leaflet.js พร้อมฟังก์ชันค้นหาและส่งออกข้อมูล
 
 ![พรีวิวแผนที่ระดับอำเภอ](assets/viewer-districts.png)
 
+**ฟีเจอร์หลัก:**
+
+- แสดงข้อมูลระดับจังหวัด, อำเภอ และตำบล
+- **กรองตามภูมิภาค (Region)**: เหนือ, กลาง, อีสาน, ใต้
+- **กรองตามจังหวัด (Province)**: เลือกเจาะลึกเฉพาะจังหวัดที่ต้องการ
+- Export แผนที่เป็นภาพ PNG ความละเอียดสูง (300 DPI) ตามพื้นที่ที่เลือก (WYSIWYG)
+- Smart Tooltip: แสดงชื่อไทย-Eng, พื้นที่, และรหัสไปรษณีย์
+- รองรับข้อมูลทั้ง Web Optimized และ Official Grade
+
+**การใช้งาน:**
+
 1. ติดตั้ง Local Server: `python -m http.server 8000`
 2. เข้าชมผ่าน URL: `http://localhost:8000/scripts/web_viewer.html`
+3. เลือกชุดข้อมูลและกรองตามจังหวัด (ถ้าต้องการ)
+4. คลิก "Export เป็นภาพ" เพื่อบันทึกแผนที่
 
 ### ระบบส่งออกแผนที่เป็นรูปภาพ (export_to_image.py)
 
@@ -107,9 +138,45 @@ python scripts/inspect_data.py [path_to_file]
 
 ![ตัวอย่างแผนที่ระดับอำเภอ](assets/map-districts.png)
 
-```powershell
-python scripts/export_to_image.py
+**ฟีเจอร์:**
+
+- ส่งออกเป็นภาพ PNG ความละเอียดสูง (300 DPI หรือที่กำหนด)
+- **รองรับการแบ่งภูมิภาค (Regional Support)**: เลือกส่งออกแบบแยกภาคได้อัตโนมัติ
+- ตรวจจับระดับข้อมูลอัตโนมัติ (จังหวัด/อำเภอ/ตำบล)
+- ตั้งชื่อไฟล์อัตโนมัติพร้อมพื้นที่และ timestamp
+- รองรับไฟล์ GeoJSON ทุกขนาด
+- แสดงสถิติข้อมูลบนภาพ
+
+**การติดตั้ง:**
+
+```bash
+pip install matplotlib geopandas shapely
 ```
+
+**การใช้งาน:**
+
+```powershell
+# Export ระดับจังหวัดแยกตามภูมิภาค (ครบทุกภาค)
+python scripts/export_to_image.py --level province --region all
+
+# Export เฉพาะภาคเหนือ
+python scripts/export_to_image.py --level district --region ภาคเหนือ
+
+# Export เฉพาะจังหวัดที่ระบุ
+python scripts/export_to_image.py --input my_file.json --output my_map.png --dpi 600
+```
+
+---
+
+## การแสดงผลแยกตามภูมิภาค (Regional Previews)
+
+ตัวอย่างการส่งออกแผนที่ความละเอียดสูงแยกตามระบบภูมิภาค 4 ภาค:
+
+| [ภาคเหนือ](assets/regional_maps/ภาคเหนือ_province.png) | [ภาคกลาง](assets/regional_maps/ภาคกลาง_province.png) |
+| :---: | :---: |
+| ![ภาคเหนือ](assets/regional_maps/ภาคเหนือ_province.png) | ![ภาคกลาง](assets/regional_maps/ภาคกลาง_province.png) |
+| **[ภาคอีสาน](assets/regional_maps/ภาคอีสาน_province.png)** | **[ภาคใต้](assets/regional_maps/ภาคใต้_province.png)** |
+| ![ภาคอีสาน](assets/regional_maps/ภาคอีสาน_province.png) | ![ภาคใต้](assets/regional_maps/ภาคใต้_province.png) |
 
 ---
 
@@ -121,7 +188,7 @@ python scripts/export_to_image.py
 
 เราได้ทำการเชื่อมโยงข้อมูล `POSTCODE` จากตาราง `amphur` ใน SQL Server เข้าสู่ GeoJSON ทำให้ทุกระดับ (อำเภอ/ตำบล) มีข้อมูลรหัสไปรษณีย์พร้อมใช้งาน:
 
-* สคริปต์ที่ใช้: `scripts/merge_zipcodes.py`
+- สคริปต์ที่ใช้: `scripts/merge_zipcodes.py`
 
 ### 2. การส่งออกข้อมูลพิกัดไปยัง SQL Server (GIS Bridge)
 
@@ -131,7 +198,7 @@ python scripts/export_to_image.py
 python scripts/generate_sql_bridge.py
 ```
 
-* ผลลัพธ์: `data/thailand_gis_update.sql` (นำไปรันใน SSMS ได้เลย)
+- ผลลัพธ์: `data/thailand_gis_update.sql` (นำไปรันใน SSMS ได้เลย)
 
 ---
 
