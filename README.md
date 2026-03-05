@@ -249,9 +249,9 @@ GitHub Profile: [JonusNattapong](https://github.com/JonusNattapong)
 
 ![GitHub stars](https://img.shields.io/github/stars/JonusNattapong/ThailandGISMap?style=social)
 
-![Star history chart](https://starchart.cc/JonusNattapong/ThailandGISMap.svg)
+[![Star History Chart](https://api.star-history.com/svg?repos=JonusNattapong/ThailandGISMap&type=Date)](https://star-history.com/#JonusNattapong/ThailandGISMap&Date)
 
-ดูแผนภูมิการเพิ่มดาวของโปรเจคแบบอินเทอร์แอคทีฟที่: https://starchart.cc/JonusNattapong/ThailandGISMap
+ดูแผนภูมิการเพิ่มดาวของโปรเจคแบบอินเทอร์แอคทีฟที่: https://star-history.com/#JonusNattapong/ThailandGISMap&Date
 
 ---
 
