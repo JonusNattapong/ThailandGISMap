@@ -128,7 +128,7 @@ python scripts/inspect_data.py [path_to_file]
 **การใช้งาน:**
 
 1. ติดตั้ง Local Server: `python -m http.server 8000`
-2. เข้าชมผ่าน URL: `http://localhost:8000/scripts/web_viewer.html`
+2. เข้าชมผ่าน URL: `http://localhost:8000/web_viewer.html`
 3. เลือกชุดข้อมูลและกรองตามจังหวัด (ถ้าต้องการ)
 4. คลิก "Export เป็นภาพ" เพื่อบันทึกแผนที่
 
