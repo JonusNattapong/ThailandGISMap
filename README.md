@@ -245,13 +245,9 @@ GitHub Profile: [JonusNattapong](https://github.com/JonusNattapong)
 
 ---
 
-## ⭐ ประวัติการสตาร์ (Star history)
+## Star History
 
-![GitHub stars](https://img.shields.io/github/stars/JonusNattapong/ThailandGISMap?style=social)
-
-[![Star History Chart](https://api.star-history.com/svg?repos=JonusNattapong/ThailandGISMap&type=Date)](https://star-history.com/#JonusNattapong/ThailandGISMap&Date)
-
-ดูแผนภูมิการเพิ่มดาวของโปรเจคแบบอินเทอร์แอคทีฟที่: https://star-history.com/#JonusNattapong/ThailandGISMap&Date
+[![Star History Chart](https://api.star-history.com/image?repos=JonusNattapong/ThailandGISMap&type=date&legend=top-left)](https://www.star-history.com/?repos=JonusNattapong%2FThailandGISMap&type=date&legend=top-left)
 
 ---
 
