@@ -219,6 +219,14 @@ python scripts/generate_sql_bridge.py
 
 ขอขอบพระคุณหน่วยงานและผู้จัดทำชุดข้อมูลต้นทางเพื่อสาธารณประโยชน์:
 
+<p>
+<!-- Avatars for credited projects (click image to open source) -->
+<a href="https://data.humdata.org/dataset/cod-ab-tha" title="UN OCHA / HDX"><img src="https://img.icons8.com/fluency/48/worldwide-location.png" alt="UN OCHA" width="48" height="48" style="margin-right:8px;"/></a>
+<a href="https://github.com/chingchai/OpenGISData-Thailand" title="chingchai/OpenGISData-Thailand"><img src="https://github.com/chingchai.png?size=48" alt="chingchai" width="48" height="48" style="border-radius:6px;margin-right:8px;"/></a>
+<a href="https://github.com/apisit/thailand.json" title="apisit/thailand.json"><img src="https://github.com/apisit.png?size=48" alt="apisit" width="48" height="48" style="border-radius:6px;margin-right:8px;"/></a>
+<a href="https://github.com/cvibhagool/thailand-map" title="cvibhagool/thailand-map"><img src="https://github.com/cvibhagool.png?size=48" alt="cvibhagool" width="48" height="48" style="border-radius:6px;"/></a>
+</p>
+
 1. [UN OCHA / HDX](https://data.humdata.org/dataset/cod-ab-tha): สำหรับข้อมูล Official COD-AB
 2. [chingchai/OpenGISData-Thailand](https://github.com/chingchai/OpenGISData-Thailand): ข้อมูลระดับเขตการปกครองละเอียดสูง
 3. [apisit/thailand.json](https://github.com/apisit/thailand.json): ข้อมูล GeoJSON เวอร์ชันจัดเตรียมสำหรับเว็บ
@@ -234,3 +242,21 @@ GitHub Profile: [JonusNattapong](https://github.com/JonusNattapong)
 
 ---
 *จัดสรรและพัฒนาระบบเพื่อสนับสนุนชุมชนสารสนเทศภูมิศาสตร์ไทย*
+
+---
+
+## ⭐ ประวัติการสตาร์ (Star history)
+
+![GitHub stars](https://img.shields.io/github/stars/JonusNattapong/ThailandGISMap?style=social)
+
+![Star history chart](https://starchart.cc/JonusNattapong/ThailandGISMap.svg)
+
+ดูแผนภูมิการเพิ่มดาวของโปรเจคแบบอินเทอร์แอคทีฟที่: https://starchart.cc/JonusNattapong/ThailandGISMap
+
+---
+
+## 👥 ผู้ร่วมพัฒนา (Contributors)
+
+[![Contributors](https://contrib.rocks/image?repo=JonusNattapong/ThailandGISMap)](https://github.com/JonusNattapong/ThailandGISMap/graphs/contributors)
+
+คลิกที่รูปเพื่อดูรายชื่อและผลงานของผู้ร่วมพัฒนาใน GitHub (Contributors graph).
