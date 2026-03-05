@@ -247,10 +247,7 @@ GitHub Profile: [JonusNattapong](https://github.com/JonusNattapong)
 
 ## Star History
 
-[![Star History Chart](https://api.star-history.com/image?repos=JonusNattapong/ThailandGISMap&type=date&legend=top-left)](https://www.star-history.com/?repos=JonusNattapong%2FThailandGISMap&type=date&legend=top-left)
-
-<!-- Fallback: some star-history endpoints can be temporarily unavailable (503). Use starchart as a reliable fallback image. -->
-[![Star history (fallback)](https://starchart.cc/JonusNattapong/ThailandGISMap.svg)](https://starchart.cc/JonusNattapong/ThailandGISMap)
+[![Star History Chart](https://api.star-history.com/image?repos=JonusNattapong/ThailandGISMap&type=date&legend=top-left)](https://www.star-history.com/)
 
 ---
 
